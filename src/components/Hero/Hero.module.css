@@ -1,0 +1,12 @@
+.spotLight {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+  background-image: radial-gradient(
+    circle,
+    transparent 10%,
+    rgba(0, 0, 0, 0.8) 30%
+  );
+  transition: 1s ease-out;
+}
