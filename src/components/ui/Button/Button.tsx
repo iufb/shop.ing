@@ -11,7 +11,9 @@ export const Button = ({
       case "icon":
         return "bg-gray-200 px-4  hover:bg-gray-400  hover:ring-gray-300";
       case " primary":
-        return " bg-blue-400 px-5 py-2 hover:bg-blue-500 hover:ring-blue-200 text-white";
+        return " bg-violet-400 px-5 py-2 hover:bg-violet-500 hover:ring-violet-200 text-white";
+      case "white":
+        return "bg-white px-6 py-4 hover:bg-gray-100 hover:ring-white text-black text-2xl font-bold w-[250px]";
       default:
         return "";
     }

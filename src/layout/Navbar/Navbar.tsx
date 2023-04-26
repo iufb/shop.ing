@@ -1,6 +1,6 @@
 import { navlinks } from "@/utils/constants";
 import { FaUser } from "react-icons/fa";
-import { Logo, Button } from "../ui";
+import { Logo, Button } from "../../components/ui";
 import { NavbarProps } from "./Navbar.props";
 import Link from "next/link";
 export const Navbar = ({}: NavbarProps): JSX.Element => {

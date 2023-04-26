@@ -5,5 +5,5 @@ export interface ButtonProps
     HTMLButtonElement
   > {
   children: ReactNode;
-  type: "icon" | " primary";
+  type: "icon" | " primary" | "white";
 }

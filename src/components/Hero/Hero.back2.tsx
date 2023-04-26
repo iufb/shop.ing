@@ -1,11 +1,14 @@
-import { useEffect, useRef, MouseEvent } from "react";
+import { useEffect, useRef, MouseEvent, useState } from "react";
 import styles from "./Hero.module.css";
 import { HeroProps } from "./Hero.props";
-export const Hero1 = ({ className, ...props }: HeroProps): JSX.Element => {
+import { Button } from "../ui";
+import { useRouter } from "next/router";
+export const Hero2 = ({ className, ...props }: HeroProps): JSX.Element => {
   const spotLightRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const spotLightSize = "transparent 10%, rgba(0, 0, 0, 0.7) 30%";
+  const router = useRouter();
   useEffect(() => {
-    let spotLightSize = "transparent 10%, rgba(0, 0, 0, 0.7) 30%";
     const width = containerRef.current?.clientWidth;
     const height = containerRef.current?.clientHeight;
     window.addEventListener("mousemove", (e) => updateSpotlight(e));
@@ -25,6 +28,14 @@ export const Hero1 = ({ className, ...props }: HeroProps): JSX.Element => {
       {...props}
     >
       <div className={`${styles.spotLight}`} ref={spotLightRef} />
+      <div className="w-full h-full z-20 center col gap-6">
+        <h1 className="text-7xl font-bold text-white hover:textFlow hover:transition-colors hover:ease-out ">
+          Start Shop.ING!
+        </h1>
+        <Button type="white" onClick={() => router.push("market")}>
+          Visit
+        </Button>
+      </div>
     </section>
   );
 };
