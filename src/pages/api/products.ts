@@ -1,7 +1,6 @@
 import { transferChildProcessOutput } from "@/utils/shell";
 import { spawn } from "child_process";
 import type { NextApiRequest, NextApiResponse } from "next";
-import path from "path";
 export default function GET(
   request: NextApiRequest,
   response: NextApiResponse
@@ -11,10 +10,9 @@ export default function GET(
     response.status(400).json({ error: "Invalid request" });
     return;
   }
-  console.log("productType", productType);
   const cmd = spawn(
     "python3",
-    (process.cwd(), ["scripts/web-scraper.py", productType || ""]),
+    (process.cwd(), ["scripts/getProducts.py", productType || ""]),
     {
       cwd: process.cwd(),
     }

@@ -20,9 +20,7 @@ export const Button = ({
   };
   return (
     <button
-      className={`${className} w-full  rounded-md  hover:ring-4 ${buttonType(
-        type
-      )}`}
+      className={`${className}   rounded-md  hover:ring-4 ${buttonType(type)}`}
       {...props}
     >
       {children}

@@ -1,8 +1,9 @@
+import { ProductCard } from "@/components";
 import { Loader } from "@/components/ui";
 import { WithLayout } from "@/layout/Layout";
 import { getProduct, productType } from "@/utils/api-client";
 import { fadeAnimation, slideAnimation } from "@/utils/motion";
-import { IProduct } from "@/utils/types/products.type";
+import { IProduct } from "@/utils/types/products.interface";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -26,20 +27,17 @@ const Type = (): JSX.Element => {
       });
   }, [type]);
   return (
-    <div className="w-full center  h-screen">
-      <div className="grid-cols-2  grid w-full h-full ">
+    <div className="w-full center  h-full bg-[#eee]">
+      <div className="xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 2xl:grid-cols-5 p-4  gap-3 grid w-full h-full ">
         {products && !isLoading ? (
           <AnimatePresence>
             {products.map((product) => (
               //ProductCard
-              <motion.div key={product.id} {...slideAnimation("up")}>
-                <img src={product.url} />
-                <h2>{product.title}</h2>
-                <h3>{product.price}</h3>
-                {product.details.map((detail, index) => (
-                  <p key={index}>{detail}</p>
-                ))}
-              </motion.div>
+              <ProductCard
+                product={product}
+                {...slideAnimation("up")}
+                key={product.id}
+              />
             ))}
           </AnimatePresence>
         ) : (

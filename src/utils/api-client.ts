@@ -2,6 +2,10 @@ import { getValidJSONString } from "./utils";
 const typeUrl = {
   phone: "smartfony-plansety/smartfony",
   tv: "televizory-audio-video/televizory",
+  notebook: "noutbuki-komputery/komputery/noutbuki",
+  smartwatch: "smartfony-plansety/umnye-gadzety/smart-casy",
+  vacuumCleaner: "tehnika-dla-doma/uborka-doma/pylesosy",
+  washingMachine: "tehnika-dla-doma/stiralnye-masiny",
 };
 export type productType = "phone" | "tv";
 export const getProduct = async (product: productType) => {
@@ -9,6 +13,15 @@ export const getProduct = async (product: productType) => {
     `/api/products?${new URLSearchParams({ productType: typeUrl[product] })}`,
     {}
   );
+  const reader = res.body?.getReader();
+  if (reader) {
+    return streamResponse(reader);
+  } else {
+    return false;
+  }
+};
+export const getCarouselItems = async () => {
+  const res = await fetch(`api/carousel`, {});
   const reader = res.body?.getReader();
   if (reader) {
     return streamResponse(reader);
@@ -29,7 +42,6 @@ async function streamResponse(stream: ReadableStreamDefaultReader<Uint8Array>) {
         return;
       }
       const output = decoder.decode(value);
-
       result.push(getValidJSONString(output));
       stream.read().then(readChunk);
     };
