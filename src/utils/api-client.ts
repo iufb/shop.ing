@@ -7,10 +7,28 @@ const typeUrl = {
   vacuumCleaner: "tehnika-dla-doma/uborka-doma/pylesosy",
   washingMachine: "tehnika-dla-doma/stiralnye-masiny",
 };
-export type productType = "phone" | "tv";
+export type productType =
+  | "phone"
+  | "tv"
+  | "notebook"
+  | "smartwatch"
+  | "vacuumCleaner"
+  | "washingMachine";
 export const getProduct = async (product: productType) => {
   const res = await fetch(
     `/api/products?${new URLSearchParams({ productType: typeUrl[product] })}`,
+    {}
+  );
+  const reader = res.body?.getReader();
+  if (reader) {
+    return streamResponse(reader);
+  } else {
+    return false;
+  }
+};
+export const getPopularBrands = async (product: productType) => {
+  const res = await fetch(
+    `/api/brands?${new URLSearchParams({ productType: typeUrl[product] })}`,
     {}
   );
   const reader = res.body?.getReader();

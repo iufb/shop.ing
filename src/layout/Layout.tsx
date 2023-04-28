@@ -1,11 +1,13 @@
 import { FunctionComponent, PropsWithChildren } from "react";
 import { Navbar } from "./Navbar/Navbar";
+import { Footer } from "./Footer/Footer";
 
 const Layout = ({ children }: PropsWithChildren) => {
   return (
-    <div className="col container ">
+    <div className="col container gap-3 ">
       <Navbar />
       <div>{children}</div>
+      <Footer />
     </div>
   );
 };

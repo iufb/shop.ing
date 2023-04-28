@@ -5,13 +5,19 @@ import sys
 
 def flatten(lst):
     return [item for sublist in lst for item in (flatten(sublist) if isinstance(sublist, list) else [sublist])]
-res,product_no = [], 1
+res,product_no  = [], 1 
 type = sys.argv[1]
+
 for i in range(1):
     url = f'https://fora.kz/catalog/{type}/?page=${i+1}'
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
     products= soup.find_all('div', class_='catalog-list-item')
+    brands=soup.find_all('div', class_='brand')
+    imgBrands=[]
+    for brand in brands:
+        img=brand.find('img')['src']
+        imgBrands.append(img)
     for product in products:
       image = product.find('div', class_='image')
       imgUrl = ''
@@ -34,7 +40,7 @@ for i in range(1):
       if title == "":
           continue
       else:
-          data = {'id': str(product_no), 'title': title , 'url': imgUrl,'price' : price, 'details': flatten(details) }
+          data = {'id': str(product_no), 'title': title , 'url': imgUrl,'price' : price, 'details': flatten(details) , "brands" : imgBrands}
           res.append(data)
           product_no +=1
 json_value = json.dumps(res, ensure_ascii=False)

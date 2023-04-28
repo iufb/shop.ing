@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 function Home() {
   return (
-    <main className={`${inter.className} container col gap-5`}>
+    <main className={`${inter.className} container col gap-5 `}>
       <Hero />
     </main>
   );

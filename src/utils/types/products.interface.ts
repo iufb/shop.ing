@@ -4,4 +4,5 @@ export interface IProduct {
   url: string;
   price: string;
   details: string[];
+  brands: string[];
 }
