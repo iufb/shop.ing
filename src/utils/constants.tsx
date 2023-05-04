@@ -5,12 +5,16 @@ export const navlinks = [
   { link: "market", path: "/market", icon: AiOutlineShopping },
 ];
 export const productNavLinks = [
-  { link: "Телефоны", path: "/market/phone" },
-  { link: "Телевизоры", path: "/market/tv" },
-  { link: "Ноутбуки", path: "/market/notebook" },
-  { link: "Smart Часы", path: "/market/smartwatch" },
-  { link: "Пылесосы", path: "/market/vacuumCleaner" },
-  { link: "Стиральные машины", path: "/market/washingMachine" },
+  { link: "Телефоны", path: "/market/phone", eng: "phone" },
+  { link: "Телевизоры", path: "/market/tv", eng: "tv" },
+  { link: "Ноутбуки", path: "/market/notebook", eng: "notebook" },
+  { link: "Smart Часы", path: "/market/smartwatch", eng: "smartwatch" },
+  { link: "Пылесосы", path: "/market/vacuumCleaner", eng: "vacuumCleaner" },
+  {
+    link: "Стиральные машины",
+    path: "/market/washingMachine",
+    eng: "washingMachine",
+  },
 ];
 export const news = {
   phone:

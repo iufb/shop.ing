@@ -8,8 +8,8 @@ def flatten(lst):
 res,product_no  = [], 1 
 type = sys.argv[1]
 
-for i in range(1):
-    url = f'https://fora.kz/catalog/{type}/?page=${i+1}'
+for i in range(2):
+    url = f'https://fora.kz/catalog/{type}/?sort=-price&page={i+1}'
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
     products= soup.find_all('div', class_='catalog-list-item')

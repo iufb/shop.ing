@@ -1,9 +1,10 @@
 import Image from "next/image";
 import { ProductCardProps } from "./ProductCard.props";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { motion, HTMLMotionProps, MotionProps } from "framer-motion";
 import { fadeAnimation } from "@/utils/motion";
 import { Button } from "../ui";
+import { useCart } from "@/hooks/useCart";
 type MotionDivProps = Omit<ProductCardProps, keyof MotionProps>;
 export const ProductCard: React.FC<MotionDivProps> = ({
   product,
@@ -11,6 +12,7 @@ export const ProductCard: React.FC<MotionDivProps> = ({
   ...props
 }): JSX.Element => {
   const [mouseEnter, setMouseEnter] = useState(false);
+  const { addProduct } = useCart();
   return (
     <motion.div
       {...props}
@@ -29,7 +31,7 @@ export const ProductCard: React.FC<MotionDivProps> = ({
           objectPosition: "center",
         }}
       />
-      <h2 className="text-lg text-gray-700 font-bold text-center">
+      <h2 className="text-lg text-gray-700 font-bold text-center flex-1">
         {product.title}
       </h2>
       {mouseEnter && (
@@ -37,12 +39,19 @@ export const ProductCard: React.FC<MotionDivProps> = ({
           className="w-full h-full center absolute bg-gray-200 col rounded-md"
           {...fadeAnimation}
         >
-          {product.details.map((detail, index) => (
-            <p key={index} className="text-sm text-gray-500 text-center">
-              {detail}
-            </p>
-          ))}
-          <Button type=" primary" className="mt-3">
+          {" "}
+          <div className="flex-1 center col">
+            {product.details.map((detail: string, index: number) => (
+              <p key={index} className="text-sm text-gray-500 text-center">
+                {detail}
+              </p>
+            ))}
+          </div>
+          <Button
+            type="primary"
+            className="mb-3 "
+            onClick={() => addProduct(product)}
+          >
             Add to Cart
           </Button>
         </motion.div>

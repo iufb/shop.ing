@@ -3,9 +3,11 @@ import { FaUser } from "react-icons/fa";
 import { Logo, Button } from "../../components/ui";
 import { NavbarProps } from "./Navbar.props";
 import Link from "next/link";
+import { useCart } from "@/hooks/useCart";
 export const Navbar = ({}: NavbarProps): JSX.Element => {
+  const { products } = useCart();
   return (
-    <nav className=" w-full between  ">
+    <nav className=" w-full between">
       <div className="center gap-3 ">
         <Logo />
         {navlinks.map((link) => (
@@ -24,7 +26,15 @@ export const Navbar = ({}: NavbarProps): JSX.Element => {
         <Button type="icon">
           <FaUser />
         </Button>
-        <Button type=" primary">Cart</Button>
+
+        <Button type="primary">
+          <>
+            <span className="text-md text-red-900 font-bold">
+              {products.length}
+            </span>
+            Cart
+          </>
+        </Button>
       </div>
     </nav>
   );

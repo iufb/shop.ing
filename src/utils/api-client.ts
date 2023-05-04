@@ -61,11 +61,9 @@ async function streamResponse(stream: ReadableStreamDefaultReader<Uint8Array>) {
       }
       const output = decoder.decode(value);
       result.push(getValidJSONString(output));
+
       stream.read().then(readChunk);
     };
-    if (result[0] == "[]\n") {
-      reject("Invalid product");
-    }
     stream.read().then(readChunk);
   });
 }
