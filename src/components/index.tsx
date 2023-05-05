@@ -7,6 +7,7 @@ import { Brands } from "./Brands/Brands";
 import { Products } from "./ProductsContainer/Products";
 import { Pagination } from "./Pagination/Pagination";
 import { Sort } from "./Sort/Sort";
+import { Cart } from "./Cart/Cart";
 export {
   Hero,
   ProductCard,
@@ -17,4 +18,5 @@ export {
   Products,
   Pagination,
   Sort,
+  Cart,
 };

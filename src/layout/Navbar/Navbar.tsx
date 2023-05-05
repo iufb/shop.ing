@@ -5,7 +5,7 @@ import { NavbarProps } from "./Navbar.props";
 import Link from "next/link";
 import { useCart } from "@/hooks/useCart";
 export const Navbar = ({}: NavbarProps): JSX.Element => {
-  const { products } = useCart();
+  const { products, toggleCart } = useCart();
   return (
     <nav className=" w-full between">
       <div className="center gap-3 ">
@@ -27,7 +27,7 @@ export const Navbar = ({}: NavbarProps): JSX.Element => {
           <FaUser />
         </Button>
 
-        <Button type="primary">
+        <Button type="primary" onClick={() => toggleCart(true)}>
           <>
             <span className="text-md text-red-900 font-bold">
               {products.length}
