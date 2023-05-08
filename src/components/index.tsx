@@ -9,6 +9,7 @@ import { Pagination } from "./Pagination/Pagination";
 import { Sort } from "./Sort/Sort";
 import { Cart } from "./Cart/Cart";
 import { TotalPrice } from "./Cart/TotalPrice/TotalPrice";
+import { Ticker } from "./Ticker/Ticker";
 export {
   Hero,
   ProductCard,
@@ -21,4 +22,5 @@ export {
   Sort,
   Cart,
   TotalPrice,
+  Ticker,
 };

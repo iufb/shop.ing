@@ -41,7 +41,10 @@ export const Cart = ({ className, ...props }: CartProps): JSX.Element => {
               <h2 className="text-gray-300 text-2xl">Cart is empty</h2>
             )}
           </div>
-          <TotalPrice total={products.length > 0 ? totalPrice : "0"} />
+          <TotalPrice
+            total={products.length > 0 ? totalPrice : "0"}
+            className="mt-4"
+          />
           <Button type="primary">Purchase</Button>
         </motion.div>
       </div>

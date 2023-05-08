@@ -1,5 +1,5 @@
 import { ButtonProps } from "./Button.props";
-
+import { motion } from "framer-motion";
 export const Button = ({
   children,
   type,
@@ -22,11 +22,12 @@ export const Button = ({
     }
   };
   return (
-    <button
+    <motion.button
+      whileTap={{ scale: 1.05 }}
       className={`${className}   rounded-md  hover:ring-4 ${buttonType(type)}`}
       {...props}
     >
       {children}
-    </button>
+    </motion.button>
   );
 };

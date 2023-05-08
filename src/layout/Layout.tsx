@@ -4,6 +4,7 @@ import { Footer } from "./Footer/Footer";
 import { CartContextProvider } from "@/context/cart.context";
 import { useCart } from "@/hooks/useCart";
 import { Cart } from "@/components";
+import { WidthObserver } from "@/context/width-observer.context";
 
 const Layout = ({ children }: PropsWithChildren) => {
   const { isOpen } = useCart();
@@ -26,9 +27,11 @@ export const WithLayout = <T extends Record<string, unknown>>(
   return function WithLayoutComponent(props: T) {
     return (
       <CartContextProvider>
-        <Layout>
-          <Component {...props} />
-        </Layout>
+        <WidthObserver>
+          <Layout>
+            <Component {...props} />
+          </Layout>
+        </WidthObserver>
       </CartContextProvider>
     );
   };

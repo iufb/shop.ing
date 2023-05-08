@@ -4,8 +4,8 @@ import { Loader } from "@/components/ui";
 import { WithLayout } from "@/layout/Layout";
 import { getPopularBrands, getProduct, productType } from "@/utils/api-client";
 import { IProduct } from "@/utils/types/products.interface";
-import { sortType, statusType } from "@/utils/types/types";
-import { getRuType, paginate, shuffle } from "@/utils/utils";
+import { statusType } from "@/utils/types/types";
+import { getRuType, paginate } from "@/utils/utils";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useReducer, useState } from "react";
 

@@ -4,7 +4,8 @@ import { CartItemProps } from "./CartItem.props";
 import { AiOutlineClose } from "react-icons/ai";
 import { Button } from "@/components/ui";
 import { useCart } from "@/hooks/useCart";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Ticker } from "@/components/Ticker/Ticker";
 export const CartItem = ({
   className,
   product,
@@ -12,6 +13,7 @@ export const CartItem = ({
 }: CartItemProps): JSX.Element => {
   const { url, title, price } = product;
   const [quantity, setQuantity] = useState(product.quantity);
+  const titleRef = useRef<HTMLHeadingElement>(null);
   const { deleteProduct, getTotalPrice } = useCart();
   const increaseQuantity = () => {
     product.quantity += 1;
@@ -38,11 +40,18 @@ export const CartItem = ({
         height={50}
         className="rounded-md"
       />
-      <div className="col  text-gray-600 gap-3  w-[60%]">
-        <h3 className="text-sm">{title}</h3>
+      <div className="col  text-gray-600 gap-3 truncate w-[60%]">
+        <Ticker
+          isPlaying
+          contentWidth={titleRef.current ? titleRef.current.clientWidth : 100}
+        >
+          <h3 className="text-sm" ref={titleRef}>
+            {title}
+          </h3>
+        </Ticker>
         <p>{price}</p>
       </div>
-      <div className="flex flex-1  gap-2">
+      <div className="flex flex-1  gap-6">
         <div className="flex gap-2 text-lg cursor-pointer">
           <button onClick={decreaseQuantity} disabled={product.quantity === 1}>
             -
