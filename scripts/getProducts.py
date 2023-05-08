@@ -40,7 +40,7 @@ for i in range(2):
       if title == "":
           continue
       else:
-          data = {'id': str(product_no), 'title': title , 'url': imgUrl,'price' : price, 'details': flatten(details) , "brands" : imgBrands}
+          data = {'id': str(product_no), 'title': title , 'url': imgUrl,'price' : price, 'details': flatten(details) , "brands" : imgBrands, "quantity": 1}
           res.append(data)
           product_no +=1
 json_value = json.dumps(res, ensure_ascii=False)

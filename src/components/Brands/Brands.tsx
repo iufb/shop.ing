@@ -29,8 +29,8 @@ export const Brands = ({
               <Image
                 src={brand}
                 alt="brand"
-                width={90}
-                height={50}
+                width={80}
+                height={20}
                 priority
                 style={{ objectFit: "cover", objectPosition: "center" }}
               />

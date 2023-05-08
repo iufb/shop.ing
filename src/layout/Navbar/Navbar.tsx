@@ -22,18 +22,12 @@ export const Navbar = ({}: NavbarProps): JSX.Element => {
           </Link>
         ))}
       </div>
-      <div className="flex gap-2 ">
-        <Button type="icon">
-          <FaUser />
-        </Button>
-
+      <div className="center gap-2 ">
+        <span className="text-md text-white ring ring-purple-200 font-bold bg-purple-300 rounded-3xl px-3 py-1">
+          {products.length}
+        </span>
         <Button type="primary" onClick={() => toggleCart(true)}>
-          <>
-            <span className="text-md text-red-900 font-bold">
-              {products.length}
-            </span>
-            Cart
-          </>
+          <>Cart</>
         </Button>
       </div>
     </nav>

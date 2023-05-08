@@ -1,5 +1,6 @@
 import { IProduct } from "@/utils/types/products.interface";
 import { sortType } from "@/utils/types/types";
+import { priceToNumber } from "@/utils/utils";
 export enum SortEnum {
   priceUp = "price-up",
   priceDown = "price-down",
@@ -22,14 +23,14 @@ export const sortReducer = (
       return {
         sort: SortEnum.priceUp,
         products: state.products.sort(
-          (a, b) => parseInt(a.price) - parseInt(b.price)
+          (a, b) => priceToNumber(a.price) - priceToNumber(b.price)
         ),
       };
     case SortEnum.priceDown:
       return {
         sort: SortEnum.priceDown,
         products: state.products.sort(
-          (a, b) => parseInt(b.price) - parseInt(a.price)
+          (a, b) => priceToNumber(b.price) - priceToNumber(a.price)
         ),
       };
     case "reset":

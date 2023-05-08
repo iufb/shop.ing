@@ -5,8 +5,9 @@ import { Button } from "../ui";
 import { AiOutlineClose } from "react-icons/ai";
 import { useCart } from "@/hooks/useCart";
 import { CartItem } from "./CartItem/CartItem";
+import { TotalPrice } from "./TotalPrice/TotalPrice";
 export const Cart = ({ className, ...props }: CartProps): JSX.Element => {
-  const { toggleCart, products } = useCart();
+  const { toggleCart, products, totalPrice } = useCart();
   return (
     <AnimatePresence>
       <div
@@ -22,7 +23,7 @@ export const Cart = ({ className, ...props }: CartProps): JSX.Element => {
             className="absolute top-2 right-2"
             onClick={() => toggleCart(false)}
           >
-            <AiOutlineClose className="m-2 w-5 h-6 hover:fill-red-600" />
+            <AiOutlineClose className="m-2 w-5 h-6 hover:fill-white" />
           </Button>
           <h1 className="text-2xl text-gray-600 text-start">Cart:</h1>
           <div
@@ -40,6 +41,7 @@ export const Cart = ({ className, ...props }: CartProps): JSX.Element => {
               <h2 className="text-gray-300 text-2xl">Cart is empty</h2>
             )}
           </div>
+          <TotalPrice total={products.length > 0 ? totalPrice : "0"} />
           <Button type="primary">Purchase</Button>
         </motion.div>
       </div>

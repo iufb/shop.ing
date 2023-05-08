@@ -8,6 +8,7 @@ import { Products } from "./ProductsContainer/Products";
 import { Pagination } from "./Pagination/Pagination";
 import { Sort } from "./Sort/Sort";
 import { Cart } from "./Cart/Cart";
+import { TotalPrice } from "./Cart/TotalPrice/TotalPrice";
 export {
   Hero,
   ProductCard,
@@ -19,4 +20,5 @@ export {
   Pagination,
   Sort,
   Cart,
+  TotalPrice,
 };

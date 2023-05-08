@@ -10,6 +10,12 @@ export const getValidJSONString = (str: string) => {
     .replace(/\\/g, "")
     .replace(/\""/g, '"');
 };
+export const priceToNumber = (str: string) => {
+  return parseInt(str.replace(/\s/g, ""));
+};
+export const getFormattedPrice = (price: number) => {
+  return price.toLocaleString("ru-RU") + " m";
+};
 export const getRuType = (type: productType) => {
   for (const productNavLink of productNavLinks) {
     if (productNavLink.eng === type) return productNavLink.link;
