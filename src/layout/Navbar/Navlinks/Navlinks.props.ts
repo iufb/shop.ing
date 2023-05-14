@@ -1,3 +1,3 @@
 import { DetailedHTMLProps, HTMLAttributes } from "react";
-export interface BrandsProps
+export interface NavlinksProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {}

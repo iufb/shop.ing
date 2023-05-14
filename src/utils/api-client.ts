@@ -1,3 +1,4 @@
+import { parse } from "url";
 import { getValidJSONString } from "./utils";
 const typeUrl = {
   phone: "smartfony-plansety/smartfony",
@@ -14,11 +15,11 @@ export type productType =
   | "smartwatch"
   | "vacuumCleaner"
   | "washingMachine";
-export const getProduct = async (product: productType) => {
-  const res = await fetch(
-    `/api/products?${new URLSearchParams({ productType: typeUrl[product] })}`,
-    {}
-  );
+export const getProduct = async (
+  product: productType
+): Promise<string[] | boolean> => {
+  const url = `http://localhost:3000/api/products?productType=${typeUrl[product]}/`;
+  const res = await fetch(url);
   const reader = res.body?.getReader();
   if (reader) {
     return streamResponse(reader);
@@ -47,7 +48,9 @@ export const getCarouselItems = async () => {
     return false;
   }
 };
-async function streamResponse(stream: ReadableStreamDefaultReader<Uint8Array>) {
+async function streamResponse(
+  stream: ReadableStreamDefaultReader<Uint8Array>
+): Promise<string[]> {
   return await new Promise((resolve, reject) => {
     const decoder = new TextDecoder();
     let result: string[] = [];

@@ -10,6 +10,7 @@ export const useCart = () => {
     deleteProduct,
     totalPrice,
     getTotalPrice,
+    productIsAdded,
   } = useContext(CartContext);
   return {
     products,
@@ -19,5 +20,6 @@ export const useCart = () => {
     deleteProduct,
     totalPrice,
     getTotalPrice,
+    productIsAdded,
   };
 };

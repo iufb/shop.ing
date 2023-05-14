@@ -5,17 +5,19 @@ export default function GET(
   request: NextApiRequest,
   response: NextApiResponse
 ) {
-  const productType = request.query.productType as string;
-  if (typeof productType !== "string") {
-    response.status(400).json({ error: "Invalid request" });
-    return;
-  }
-  const cmd = spawn(
-    "python3",
-    (process.cwd(), ["scripts/getProducts.py", productType || ""]),
-    {
-      cwd: process.cwd(),
+  if (request.url) {
+    const { productType } = request.query;
+    if (typeof productType !== "string") {
+      response.status(400).json({ error: "Invalid request" });
+      return;
     }
-  );
-  transferChildProcessOutput(cmd, response);
+    const cmd = spawn(
+      "python3",
+      (process.cwd(), ["scripts/getProducts.py", productType || ""]),
+      {
+        cwd: process.cwd(),
+      }
+    );
+    transferChildProcessOutput(cmd, response);
+  }
 }

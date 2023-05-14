@@ -10,6 +10,7 @@ interface ICartContext {
   deleteProduct: (product: IProduct) => void;
   totalPrice: string;
   getTotalPrice: () => void;
+  productIsAdded: (productId: string) => boolean;
 }
 export const CartContext = React.createContext<ICartContext>({
   isOpen: false,
@@ -19,6 +20,7 @@ export const CartContext = React.createContext<ICartContext>({
   deleteProduct: () => {},
   totalPrice: "0",
   getTotalPrice: () => {},
+  productIsAdded: () => false,
 });
 export const CartContextProvider = ({ children }: PropsWithChildren) => {
   const [isOpenState, setIsOpenState] = useState(false);
@@ -27,31 +29,16 @@ export const CartContextProvider = ({ children }: PropsWithChildren) => {
   const toggleCart = (value: boolean) => {
     setIsOpenState(value);
   };
+  const productIsAdded = (productId: string) => {
+    const isAdded = productsState.find((p) => p.id == productId) ? true : false;
+    return isAdded;
+  };
   const addProduct = (product: IProduct) => {
-    const addedProduct = productsState.find((p) => p.id === product.id);
-    if (addedProduct) {
-      setProductsState(
-        productsState.map((product: IProduct) => {
-          if (product.id == addedProduct.id) {
-            let quantity = product.quantity + 1;
-            return { ...product, quantity };
-          } else {
-            return product;
-          }
-        })
-      );
-    } else {
-      setProductsState([...productsState, product]);
-    }
+    setProductsState([...productsState, product]);
   };
   const deleteProduct = (product: IProduct) => {
     setProductsState([...productsState.filter((p) => p.id !== product.id)]);
   };
-  // useEffect(() => {
-  //   if (productsState.length == 0) {
-  //     setTotalPrice("0");
-  //   }
-  // }, [productsState.length]);
   const getTotalPrice = () => {
     let total = 0;
     for (let i = 0; i < productsState.length; i++) {
@@ -71,6 +58,7 @@ export const CartContextProvider = ({ children }: PropsWithChildren) => {
         deleteProduct,
         getTotalPrice,
         totalPrice,
+        productIsAdded,
       }}
     >
       {children}

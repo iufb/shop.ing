@@ -1,5 +1,7 @@
+import { productNavLink } from "@/utils/types/types";
 import { DetailedHTMLProps, HTMLAttributes } from "react";
-export interface CartProps
+export interface DropdownProps
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-  isMobile: boolean;
+  list: productNavLink[];
+  text: string;
 }

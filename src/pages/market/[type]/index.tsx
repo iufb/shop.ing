@@ -1,18 +1,24 @@
-import { Brands, Products, Pagination, Sort } from "@/components";
+import { Pagination, SortPanel } from "@/components";
 import { SortEnum, sortReducer } from "@/components/Sort/sort.reducer";
-import { Loader } from "@/components/ui";
+import { Loader, Error } from "@/components/ui";
 import { WithLayout } from "@/layout/Layout";
-import { getPopularBrands, getProduct, productType } from "@/utils/api-client";
+import { getProduct, productType } from "@/utils/api-client";
 import { IProduct } from "@/utils/types/products.interface";
-import { statusType } from "@/utils/types/types";
 import { getRuType, paginate } from "@/utils/utils";
+import { getValidJSONString } from "@/utils/utils";
+import { GetServerSideProps } from "next";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useReducer, useState } from "react";
-
-const Type = (): JSX.Element => {
+const Products = dynamic(
+  () => import("../../../components/ProductsContainer/Products"),
+  { loading: () => <Loader /> }
+);
+const Brands = dynamic(() => import("../../../components/Brands/Brands"), {
+  loading: () => <Loader />,
+});
+const Type = ({ products }: { products: IProduct[] }): JSX.Element => {
   const { asPath } = useRouter();
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [brands, setBrands] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [{ sort, products: sortedProducts }, dispatch] = useReducer(
     sortReducer,
@@ -21,7 +27,6 @@ const Type = (): JSX.Element => {
       sort: SortEnum.priceDown,
     }
   );
-  const [status, setStatus] = useState<statusType>("init");
   const [error, setError] = useState("");
   const type = asPath.split("/")[2] as productType;
   const onPageChange = (page: number) => {
@@ -35,61 +40,66 @@ const Type = (): JSX.Element => {
       dispatch({ type: "reset", initialState: products });
   }, [products]);
   useEffect(() => {
-    getPopularBrands(type).then((data) => {
-      const brandsString = data as string[];
-      setBrands(JSON.parse(brandsString[0])[0].brands); // get array of brands
-    });
-  }, [type]);
-  useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
-  useEffect(() => {
-    setStatus("loading");
-    getProduct(type)
-      .then((data) => {
-        const productsString = data as string[];
-        setProducts(JSON.parse(productsString[0]));
-        setStatus("success");
-      })
-      .catch((e) => {
-        setError(e);
-        console.log(e);
-        setStatus("error");
-      });
-  }, [type]);
+
+  // useEffect(() => {
+  //   setError("");
+  //   getProduct(type)
+  //     .then((data) => {
+  //       const productsString = data as string[];
+  //       const products = JSON.parse(productsString[0]);
+  //       setProducts(products);
+  //     })
+  //     .catch((e) => {
+  //       setError("Fetching data error occured.");
+  //       console.log(e);
+  //     });
+  // }, [type]);
   const paginatedProducts = useMemo(
     () => paginate(sortedProducts, currentPage, 10),
     [currentPage, sortedProducts, sort]
   );
   return (
     <div className="w-full  col  grid gap-3">
-      <h1 className="text-3xl  font-bold text-gray-900 capitalize justify-self-start ml-3">
+      <h1 className="lg:text-3xl text-xl  font-bold text-gray-900 capitalize justify-self-start ml-3">
         {getRuType(type)}
       </h1>
-      <Brands brands={brands} status={status} />
-      <div className="flex justify-between">
-        <p className="text-gray-600">
-          В продаже{" "}
-          <span className="text-black font-bold"> {sortedProducts.length}</span>{" "}
-          товаров
-        </p>
-        <Sort onSort={onSort} sort={sort} />
-      </div>
-      {(status == "loading" || products.length == 0) && (
-        <div className="w-full center h-[600px]">
-          <Loader />
-        </div>
+      <Brands />
+      <SortPanel quantity={sortedProducts.length} onSort={onSort} sort={sort} />
+
+      {error ? (
+        <Error error={error} />
+      ) : (
+        <>
+          <Products products={paginatedProducts} />
+          <Pagination
+            items={sortedProducts.length}
+            pageSize={10}
+            currentPage={currentPage}
+            onPageChange={onPageChange}
+          />
+        </>
       )}
-      {status == "success" && <Products products={paginatedProducts} />}
-      {status == "error" && <div>{error}</div>}
-      <Pagination
-        items={sortedProducts.length}
-        pageSize={10}
-        currentPage={currentPage}
-        onPageChange={onPageChange}
-      />
     </div>
   );
 };
 
 export default WithLayout(Type);
+export const getServerSideProps: GetServerSideProps<{
+  products: IProduct[];
+}> = async (context) => {
+  const productType = context.req.url?.split("/").pop() as productType;
+  const data = await getProduct(productType).then((data) => {
+    if (typeof data !== "boolean") {
+      const productString = data;
+      return JSON.parse(getValidJSONString(productString[0]));
+    }
+  });
+
+  return {
+    props: {
+      products: data,
+    },
+  };
+};

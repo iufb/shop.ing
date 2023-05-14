@@ -1,21 +1,18 @@
 import Image from "next/image";
 import { ProductCardProps } from "./ProductCard.props";
-import React, { useCallback, useState } from "react";
-import { motion, HTMLMotionProps, MotionProps } from "framer-motion";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { fadeAnimation } from "@/utils/motion";
 import { Button } from "../ui";
 import { useCart } from "@/hooks/useCart";
-type MotionDivProps = Omit<ProductCardProps, keyof MotionProps>;
-export const ProductCard: React.FC<MotionDivProps> = ({
+export const ProductCard: React.FC<ProductCardProps> = ({
   product,
   className,
-  ...props
 }): JSX.Element => {
   const [mouseEnter, setMouseEnter] = useState(false);
-  const { addProduct } = useCart();
+  const { addProduct, productIsAdded } = useCart();
   return (
     <motion.div
-      {...props}
       className={`${className} w-[300px]  h-full bg-white center col gap-1 p-2 rounded-md relative shadow shadow-gray-300 cursor-pointer`}
       onMouseEnter={() => setMouseEnter(true)}
       onMouseLeave={() => setMouseEnter(false)}
@@ -50,9 +47,10 @@ export const ProductCard: React.FC<MotionDivProps> = ({
           <Button
             type="primary"
             className="mb-3 "
+            active={productIsAdded(product.id)}
             onClick={() => addProduct(product)}
           >
-            Add to Cart
+            {productIsAdded(product.id) ? "Added!" : "Add to Cart"}
           </Button>
         </motion.div>
       )}

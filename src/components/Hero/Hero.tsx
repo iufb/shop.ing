@@ -49,20 +49,20 @@ export const Hero = ({ className, ...props }: HeroProps): JSX.Element => {
   };
   return (
     <section
-      className={`${className}  h-[80vh] border center  rounded-xl relative`}
+      className={`${className}  lg:h-[80vh] h-full border flex flex-col lg:flex-row  lg:items-center p-3 lg:p-0    rounded-xl relative`}
       {...props}
       ref={refContainer}
     >
       <Link href={"market"}>
         <div
-          className=" col w-full gap-4 bg-white text-center p-[120px] cursor-none "
+          className=" col w-full gap-4 bg-white text-center lg:p-[120px] cursor-none "
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
         >
-          <h1 className="text-7xl uppercase">
+          <h1 className="lg:text-7xl text-5xl uppercase">
             start shop<span className="text-red-700">.</span>ing
           </h1>
-          <p className="text-2xl">
+          <p className="lg:text-2xl text-xl">
             Find what you want &rarr; add it to the cart &rarr; buy it &rarr;
             enjoy your purchase.
           </p>

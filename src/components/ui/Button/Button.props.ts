@@ -7,4 +7,6 @@ export interface ButtonProps
   children: ReactNode;
   type: "icon" | "primary" | "white";
   active?: boolean;
+  StartIcon?: ReactNode;
+  EndIcon?: ReactNode;
 }
