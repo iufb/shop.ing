@@ -15,10 +15,11 @@ export type productType =
   | "smartwatch"
   | "vacuumCleaner"
   | "washingMachine";
+const site = process.env.API_SITE;
 export const getProduct = async (
   product: productType
 ): Promise<string | boolean> => {
-  const url = `http://localhost:3000/api/products?productType=${typeUrl[product]}/`;
+  const url = `${site}/api/products?productType=${typeUrl[product]}/`;
   const res = await fetch(url);
   const reader = res.body?.getReader();
   if (reader) {
@@ -29,7 +30,7 @@ export const getProduct = async (
 };
 export const getPopularBrands = async (product: productType) => {
   const res = await fetch(
-    `http://localhost:3000/api/brands?${new URLSearchParams({
+    `${site}/api/brands?${new URLSearchParams({
       productType: typeUrl[product],
     })}`,
     {}
@@ -42,7 +43,7 @@ export const getPopularBrands = async (product: productType) => {
   }
 };
 export const getCarouselItems = async () => {
-  const res = await fetch(`http://localhost:3000/api/carousel`, {});
+  const res = await fetch(`${site}/api/carousel`, {});
   const reader = res.body?.getReader();
   if (reader) {
     return streamResponse(reader);
