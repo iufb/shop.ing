@@ -2,10 +2,9 @@ import { Carousel, News, ProductNav } from "@/components";
 import { WithLayout } from "@/layout/Layout";
 import { getCarouselItems } from "@/utils/api-client";
 import { ICarouselItem } from "@/utils/types/carouselItem.interface";
-import { useEffect, useState } from "react";
 import { GetStaticProps } from "next";
 const Market = ({
-  carouselData,
+  carouselData = [],
 }: {
   carouselData: ICarouselItem[];
 }): JSX.Element => {
@@ -27,7 +26,11 @@ export const getStaticProps: GetStaticProps<{
   const carouselData: ICarouselItem[] = await getCarouselItems().then(
     (data) => {
       const carouselItems = data;
-      if (typeof carouselItems !== "boolean") return JSON.parse(carouselItems);
+      if (typeof carouselItems !== "boolean") {
+        return JSON.parse(carouselItems);
+      } else {
+        return [];
+      }
     }
   );
   return {

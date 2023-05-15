@@ -15,8 +15,8 @@ const Brands = dynamic(() => import("../../../components/Brands/Brands"), {
 });
 
 const Type = ({
-  products,
-  brands,
+  products = [],
+  brands = [],
 }: {
   products: IProduct[];
   brands: string[];
@@ -78,7 +78,7 @@ export default WithLayout(Type);
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: productNavLinks.map((path) => `/market/${path.eng}`),
-    fallback: true,
+    fallback: false,
   };
 };
 export const getStaticProps: GetStaticProps<{
@@ -86,11 +86,13 @@ export const getStaticProps: GetStaticProps<{
   brands: string[];
 }> = async (context) => {
   const productType = context.params?.type as productType;
-  const productData = await getProduct(productType).then((data) => {
+  const productData: IProduct[] = await getProduct(productType).then((data) => {
     try {
       if (typeof data !== "boolean") {
         const productString = data;
         return JSON.parse(productString);
+      } else {
+        return [];
       }
     } catch (e) {
       if (e instanceof Error) {
@@ -100,9 +102,17 @@ export const getStaticProps: GetStaticProps<{
   });
   const brandsData: string[] = await getPopularBrands(productType).then(
     (data) => {
-      const brandsString = data;
-      if (typeof brandsString !== "boolean")
-        return JSON.parse(brandsString)[0].brands; // get array of brands
+      try {
+        const brandsString = data;
+        if (typeof brandsString !== "boolean") {
+          // get array of brands
+          return JSON.parse(brandsString)[0].brands;
+        } else {
+          return [];
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
   );
 
