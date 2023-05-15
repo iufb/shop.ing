@@ -8,7 +8,6 @@ const Products = ({
   products,
   ...props
 }: ProductsProps): JSX.Element => {
-  if (products.length == 0) return <Loader className="justify-self-center " />;
   return (
     <div
       className={`xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 2xl:grid-cols-5 p-4    gap-3 grid w-full  ${className} `}

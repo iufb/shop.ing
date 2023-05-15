@@ -17,7 +17,7 @@ export type productType =
   | "washingMachine";
 export const getProduct = async (
   product: productType
-): Promise<string[] | boolean> => {
+): Promise<string | boolean> => {
   const url = `http://localhost:3000/api/products?productType=${typeUrl[product]}/`;
   const res = await fetch(url);
   const reader = res.body?.getReader();
@@ -29,7 +29,9 @@ export const getProduct = async (
 };
 export const getPopularBrands = async (product: productType) => {
   const res = await fetch(
-    `/api/brands?${new URLSearchParams({ productType: typeUrl[product] })}`,
+    `http://localhost:3000/api/brands?${new URLSearchParams({
+      productType: typeUrl[product],
+    })}`,
     {}
   );
   const reader = res.body?.getReader();
@@ -40,7 +42,7 @@ export const getPopularBrands = async (product: productType) => {
   }
 };
 export const getCarouselItems = async () => {
-  const res = await fetch(`api/carousel`, {});
+  const res = await fetch(`http://localhost:3000/api/carousel`, {});
   const reader = res.body?.getReader();
   if (reader) {
     return streamResponse(reader);
@@ -50,10 +52,10 @@ export const getCarouselItems = async () => {
 };
 async function streamResponse(
   stream: ReadableStreamDefaultReader<Uint8Array>
-): Promise<string[]> {
+): Promise<string> {
   return await new Promise((resolve, reject) => {
-    const decoder = new TextDecoder();
-    let result: string[] = [];
+    const decoder = new TextDecoder("utf-8");
+    let result: string = "";
     const readChunk = ({
       done,
       value,
@@ -63,7 +65,7 @@ async function streamResponse(
         return;
       }
       const output = decoder.decode(value);
-      result.push(getValidJSONString(output));
+      result += output;
 
       stream.read().then(readChunk);
     };

@@ -3,12 +3,14 @@ import { productNavLinks } from "./constants";
 import { IProduct } from "./types/products.interface";
 
 export const getValidJSONString = (str: string) => {
-  return str
+  const validString = str
     .replace(/'/g, '"')
     .replace(/\\n/g, " ")
     .replace(/\\xa/g, ".")
     .replace(/\\/g, "")
     .replace(/\""/g, '"');
+  console.log(validString);
+  return validString;
 };
 export const priceToNumber = (str: string) => {
   return parseInt(str.replace(/\s/g, ""));

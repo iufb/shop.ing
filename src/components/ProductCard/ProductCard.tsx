@@ -2,7 +2,7 @@ import Image from "next/image";
 import { ProductCardProps } from "./ProductCard.props";
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { fadeAnimation } from "@/utils/motion";
+import { fadeAnimation, slideAnimation } from "@/utils/motion";
 import { Button } from "../ui";
 import { useCart } from "@/hooks/useCart";
 export const ProductCard: React.FC<ProductCardProps> = ({
@@ -16,6 +16,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       className={`${className} w-[300px]  h-full bg-white center col gap-1 p-2 rounded-md relative shadow shadow-gray-300 cursor-pointer`}
       onMouseEnter={() => setMouseEnter(true)}
       onMouseLeave={() => setMouseEnter(false)}
+      {...slideAnimation("up")}
     >
       <Image
         src={product.url}

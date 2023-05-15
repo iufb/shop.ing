@@ -1,23 +1,26 @@
-import { Pagination, SortPanel } from "@/components";
+import { Pagination, Products, SortPanel } from "@/components";
 import { SortEnum, sortReducer } from "@/components/Sort/sort.reducer";
 import { Loader, Error } from "@/components/ui";
 import { WithLayout } from "@/layout/Layout";
-import { getProduct, productType } from "@/utils/api-client";
+import { getPopularBrands, getProduct, productType } from "@/utils/api-client";
+import { productNavLinks } from "@/utils/constants";
 import { IProduct } from "@/utils/types/products.interface";
 import { getRuType, paginate } from "@/utils/utils";
-import { getValidJSONString } from "@/utils/utils";
-import { GetServerSideProps } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useReducer, useState } from "react";
-const Products = dynamic(
-  () => import("../../../components/ProductsContainer/Products"),
-  { loading: () => <Loader /> }
-);
 const Brands = dynamic(() => import("../../../components/Brands/Brands"), {
   loading: () => <Loader />,
 });
-const Type = ({ products }: { products: IProduct[] }): JSX.Element => {
+
+const Type = ({
+  products,
+  brands,
+}: {
+  products: IProduct[];
+  brands: string[];
+}): JSX.Element => {
   const { asPath } = useRouter();
   const [currentPage, setCurrentPage] = useState(1);
   const [{ sort, products: sortedProducts }, dispatch] = useReducer(
@@ -42,20 +45,6 @@ const Type = ({ products }: { products: IProduct[] }): JSX.Element => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
-
-  // useEffect(() => {
-  //   setError("");
-  //   getProduct(type)
-  //     .then((data) => {
-  //       const productsString = data as string[];
-  //       const products = JSON.parse(productsString[0]);
-  //       setProducts(products);
-  //     })
-  //     .catch((e) => {
-  //       setError("Fetching data error occured.");
-  //       console.log(e);
-  //     });
-  // }, [type]);
   const paginatedProducts = useMemo(
     () => paginate(sortedProducts, currentPage, 10),
     [currentPage, sortedProducts, sort]
@@ -65,7 +54,7 @@ const Type = ({ products }: { products: IProduct[] }): JSX.Element => {
       <h1 className="lg:text-3xl text-xl  font-bold text-gray-900 capitalize justify-self-start ml-3">
         {getRuType(type)}
       </h1>
-      <Brands />
+      <Brands brands={brands} />
       <SortPanel quantity={sortedProducts.length} onSort={onSort} sort={sort} />
 
       {error ? (
@@ -86,20 +75,41 @@ const Type = ({ products }: { products: IProduct[] }): JSX.Element => {
 };
 
 export default WithLayout(Type);
-export const getServerSideProps: GetServerSideProps<{
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: productNavLinks.map((path) => `/market/${path.eng}`),
+    fallback: true,
+  };
+};
+export const getStaticProps: GetStaticProps<{
   products: IProduct[];
+  brands: string[];
 }> = async (context) => {
-  const productType = context.req.url?.split("/").pop() as productType;
-  const data = await getProduct(productType).then((data) => {
-    if (typeof data !== "boolean") {
-      const productString = data;
-      return JSON.parse(getValidJSONString(productString[0]));
+  const productType = context.params?.type as productType;
+  const productData = await getProduct(productType).then((data) => {
+    try {
+      if (typeof data !== "boolean") {
+        const productString = data;
+        return JSON.parse(productString);
+      }
+    } catch (e) {
+      if (e instanceof Error) {
+        console.log(e);
+      }
     }
   });
+  const brandsData: string[] = await getPopularBrands(productType).then(
+    (data) => {
+      const brandsString = data;
+      if (typeof brandsString !== "boolean")
+        return JSON.parse(brandsString)[0].brands; // get array of brands
+    }
+  );
 
   return {
     props: {
-      products: data,
+      products: productData,
+      brands: brandsData,
     },
   };
 };

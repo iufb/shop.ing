@@ -1,6 +1,6 @@
 import { cartMobile, slideAnimation } from "@/utils/motion";
 import { CartProps } from "./Cart.props";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { Button } from "../ui";
 import { AiOutlineClose } from "react-icons/ai";
 import { useCart } from "@/hooks/useCart";

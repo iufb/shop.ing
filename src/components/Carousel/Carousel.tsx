@@ -9,7 +9,6 @@ import { useResize } from "@/hooks/useResize";
 export const Carousel = ({
   className,
   carouselItems,
-  isLoading,
   ...props
 }: CarouselProps): JSX.Element => {
   const { size } = useResize();
@@ -20,30 +19,21 @@ export const Carousel = ({
     else return setSlidesPerView(3);
   }, [size]);
   return (
-    <div
-      className={`${className} cursor-grab py-4 center ${
-        isLoading && "w-full h-[250px] center"
-      }  `}
-      {...props}
-    >
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <Swiper
-          loopedSlides={8}
-          loop={true}
-          spaceBetween={50}
-          slidesPerView={slidesPerView}
-          onSlideChange={() => console.log("slide change")}
-          className="w-full h-fit py-4"
-        >
-          {carouselItems.map((item) => (
-            <SwiperSlide key={item.id}>
-              <CarouselItem product={item} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      )}
+    <div className={`${className} cursor-grab py-4 center   `} {...props}>
+      <Swiper
+        loopedSlides={8}
+        loop={true}
+        spaceBetween={50}
+        slidesPerView={slidesPerView}
+        onSlideChange={() => console.log("slide change")}
+        className="w-full h-fit py-4"
+      >
+        {carouselItems.map((item) => (
+          <SwiperSlide key={item.id}>
+            <CarouselItem product={item} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 };

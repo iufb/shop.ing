@@ -2,20 +2,8 @@ import Image from "next/image";
 import { BrandsProps } from "./Brands.props";
 import { AnimatePresence, motion } from "framer-motion";
 import { slideAnimation } from "@/utils/motion";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { getPopularBrands, productType } from "@/utils/api-client";
 import { Loader } from "../ui";
-const Brands = ({ className, ...props }: BrandsProps): JSX.Element => {
-  const { asPath } = useRouter();
-  const type = asPath.split("/")[2] as productType;
-  const [brands, setBrands] = useState<string[] | null>(null);
-  useEffect(() => {
-    getPopularBrands(type).then((data) => {
-      const brandsString = data as string[];
-      setBrands(JSON.parse(brandsString[0])[0].brands); // get array of brands
-    });
-  }, [type]);
+const Brands = ({ className, brands, ...props }: BrandsProps): JSX.Element => {
   if (!brands) return <Loader className="justify-self-center" />;
   return (
     <div

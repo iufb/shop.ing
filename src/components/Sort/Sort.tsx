@@ -16,6 +16,7 @@ export const Sort = ({
         onClick={() => {
           onSort(SortEnum.priceUp);
         }}
+        aria-label="price down"
       >
         дешевле
       </Button>
@@ -25,6 +26,7 @@ export const Sort = ({
         onClick={() => {
           onSort(SortEnum.priceDown);
         }}
+        aria-label="price up"
       >
         дороже
       </Button>
