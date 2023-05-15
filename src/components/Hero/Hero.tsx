@@ -1,4 +1,4 @@
-import { useRef, MouseEvent, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { HeroProps } from "./Hero.props";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { AiOutlineShoppingCart } from "react-icons/ai";
@@ -14,7 +14,7 @@ export const Hero = ({ className, ...props }: HeroProps): JSX.Element => {
   const cursorYSpring = useSpring(cursorY, springConfig);
   const refContainer = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const moveCursor = (e: MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
     };
