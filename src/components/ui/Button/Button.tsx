@@ -7,6 +7,7 @@ export const Button = ({
   active,
   StartIcon,
   EndIcon,
+  onClick,
   className,
   ...props
 }: ButtonProps) => {
@@ -31,7 +32,7 @@ export const Button = ({
         type
       )}`}
       disabled={active}
-      {...props}
+      onClick={onClick}
     >
       {StartIcon && <div>{StartIcon}</div>}
       {children}

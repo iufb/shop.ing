@@ -9,4 +9,5 @@ export interface ButtonProps
   active?: boolean;
   StartIcon?: ReactNode;
   EndIcon?: ReactNode;
+  onClick: () => void;
 }

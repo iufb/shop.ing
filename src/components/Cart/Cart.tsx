@@ -44,7 +44,9 @@ const Cart = ({ className, isMobile, ...props }: CartProps): JSX.Element => {
           total={products.length > 0 ? totalPrice : "0"}
           className="mt-4"
         />
-        <Button type="primary">Purchase</Button>
+        <Button type="primary" onClick={() => {}}>
+          Purchase
+        </Button>
       </motion.div>
     </div>
   );
