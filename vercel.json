@@ -1,0 +1,11 @@
+{
+  "build": {
+    "env": {
+      "PIP_TARGET": "/vercel/path0/.pythonlibs",
+      "PYTHONUSERBASE": "/vercel/path0/.pythonlibs"
+    },
+    "commands": {
+      "install": "pip install --user beautifulsoup4"
+    }
+  }
+}
